@@ -2,6 +2,8 @@ package com.example.curso.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.curso.entities.enums.OrderStatus;
@@ -33,6 +36,9 @@ public class Pedido implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Usuario client;
+	
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
 	
 	public Pedido() {}
 
@@ -77,6 +83,10 @@ public class Pedido implements Serializable{
 		if(orderStatus != null) {
 			this.orderStatus = orderStatus.getCode();
 		}
+	}
+	
+	public Set<OrderItem> getItems(){
+		return items;
 	}
 
 	@Override
